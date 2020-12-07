@@ -40,7 +40,7 @@ def wins(state, player):
         [state[3][0], state[2][1], state[1][2], state[0][3]],
     ]
 
-    if [player, player, player, player] in win_state:
+    if [player, player, player] in win_state:
         return True
     else:
         return False
@@ -57,7 +57,6 @@ def empty_cells(state):
         for y, cell in enumerate(row):
             if cell == 0:
                 cells.append([x, y])
-
     return cells
 
 
@@ -85,21 +84,21 @@ def minimax(state, depth, player):
     if depth == 0 or game_over(state):
         score = evaluate(state)
         return [-1, -1, score]
+    for row in empty_cells(state):
+        for cell in empty_cells(state)[row]:
+            x, y = cell[0], cell[1]
+            state[x][y] = player
+            score = minimax(state, depth - 1, -player)
+            state[x][y] = 0
+            score[0], score[1] = x, y
 
-    for cell in empty_cells(state):
-        x, y = cell[0], cell[1]
-        state[x][y] = player
-        score = minimax(state, depth - 1, -player)
-        state[x][y] = 0
-        score[0], score[1] = x, y
-
-        if player == COMP:
-            if score[2] > best[2]:
-                best = score  # max value
-        else:
-            if score[2] < best[2]:
-                best = score  # min value
-    return best
+            if player == COMP:
+                if score[2] > best[2]:
+                    best = score  # max value
+            else:
+                if score[2] < best[2]:
+                    best = score  # min value
+        return best
 
 
 def clean():
@@ -135,7 +134,8 @@ def render(state, c_choice, h_choice):
 
 
 def ai_turn(c_choice, h_choice):
-    depth = len(empty_cells(board))
+    # depth = len(empty_cells(board))
+    depth = 16
     if depth == 0 or game_over(board):
         return
 
@@ -157,7 +157,8 @@ def ai_turn(c_choice, h_choice):
 
 
 def human_turn(c_choice, h_choice):
-    depth = len(empty_cells(board))
+    # depth = len(empty_cells(board))
+    depth = 16
     if depth == 0 or game_over(board):
         return
 
