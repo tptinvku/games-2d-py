@@ -40,7 +40,7 @@ def wins(state, player):
         [state[3][0], state[2][1], state[1][2], state[0][3]],
     ]
 
-    if [player, player, player] in win_state:
+    if [player, player, player, player] in win_state:
         return True
     else:
         return False
