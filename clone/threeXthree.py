@@ -25,9 +25,9 @@ board = [
 
 def evaluate(state):
     """
-    Function to heuristic evaluation of state.
-    :param state: the state of the current board
-    :return: +1 if the computer wins; -1 if the human wins; 0 draw
+    Hàm đánh giá trạng thái
+    :param state:  trạng thái hiện tại của bảng
+    :return: +1 nếu máy tính thắng ; -1 nếu con người thắng ; 0 hòa
     """
     if wins(state, COMP):
         score = +1
@@ -41,13 +41,14 @@ def evaluate(state):
 
 def wins(state, player):
     """
-    This function tests if a specific player wins. Possibilities:
-    * Three rows    [X X X] or [O O O]
-    * Three cols    [X X X] or [O O O]
-    * Two diagonals [X X X] or [O O O]
-    :param state: the state of the current board
-    :param player: a human or a computer
-    :return: True if the player wins
+    Hàm này kiểm tra xem nếu một người chơi cụ thể chiến thắng. Một số khả năng:
+    * Three rows    [X X X X] or [O O O O]
+    * Three cols    [X X X X] or [O O O O]
+    * Two diagonals [X X X X] or [O O O O]
+                    [X X X X] or [O O O O]
+    :param state: trạng thái hiện tại của bảng
+    :param player: con người hay máy tính
+    :return: True nếu một trong hai người chơi chiến thắng
     """
     win_state = [
         [state[0][0], state[0][1], state[0][2]],
@@ -67,18 +68,18 @@ def wins(state, player):
 
 def game_over(state):
     """
-    This function test if the human or computer wins
-    :param state: the state of the current board
-    :return: True if the human or computer wins
+    Kiểm tra nếu con người hoặc máy tính chiến thắng
+    :param state: trạng thái hiện tại của bảng
+    :return: True nếu con người hoặc máy tính thắng
     """
     return wins(state, HUMAN) or wins(state, COMP)
 
 
 def empty_cells(state):
     """
-    Each empty cell will be added into cells' list
-    :param state: the state of the current board
-    :return: a list of empty cells
+    Duyệt qua bảng hiện tại, lấy từng ô trống lưu vào Cells
+    :param state: trạng thái hiện tại của bảng
+    :return: trả về một danh sách các ô trống
     """
     cells = []
 
@@ -92,10 +93,10 @@ def empty_cells(state):
 
 def valid_move(x, y):
     """
-    A move is valid if the chosen cell is empty
-    :param x: X coordinate
-    :param y: Y coordinate
-    :return: True if the board[x][y] is empty
+    Di chuyển là hợp lệ nếu chọn những ô trống
+    :param x: tọa độ X
+    :param y: tọa độ Y
+    :return: True nếu board[x][y] là trống
     """
     if [x, y] in empty_cells(board):
         return True
@@ -105,10 +106,10 @@ def valid_move(x, y):
 
 def set_move(x, y, player):
     """
-    Set the move on board, if the coordinates are valid
-    :param x: X coordinate
-    :param y: Y coordinate
-    :param player: the current player
+    thiết lập di chuyển, nếu tọa đô hợp lệ
+    :param x: toa độ X
+    :param y: tọa đô Y
+    :param player: người chơi hiện tại
     """
     if valid_move(x, y):
         board[x][y] = player
@@ -119,8 +120,8 @@ def set_move(x, y, player):
 
 def minimax(state, depth, player):
     """
-    AI function that choice the best move
-    :param state: current state of the board
+    Hàm này giúp AI chọn được di chuyển tốt nhất
+    :param state: trạng thái hiện tại của bảng
     :param depth: node index in the tree (0 <= depth <= 9),
     but never nine in this case (see iaturn() function)
     :param player: an human or a computer

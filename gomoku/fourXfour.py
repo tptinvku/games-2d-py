@@ -16,6 +16,11 @@ board = [
 
 
 def evaluate(state):
+    """
+    Hàm đánh giá trạng thái
+    :param state:  trạng thái hiện tại của bảng
+    :return: +1 nếu máy tính thắng ; -1 nếu con người thắng ; 0 hòa
+    """
     if wins(state, COMP):
         score = +1
     elif wins(state, HUMAN):
@@ -27,6 +32,16 @@ def evaluate(state):
 
 
 def wins(state, player):
+    """
+    Hàm này kiểm tra xem nếu một người chơi cụ thể chiến thắng. Một số khả năng:
+    * Three rows    [X X X X] or [O O O O]
+    * Three cols    [X X X X] or [O O O O]
+    * Two diagonals [X X X X] or [O O O O]
+                    [X X X X] or [O O O O]
+    :param state: trạng thái hiện tại của bảng
+    :param player: con người hay máy tính
+    :return: True nếu một trong hai người chơi chiến thắng
+    """
     win_state = [
         [state[0][0], state[0][1], state[0][2], state[0][3]],
         [state[1][0], state[1][1], state[1][2], state[1][3]],
@@ -47,10 +62,20 @@ def wins(state, player):
 
 
 def game_over(state):
+    """
+    Kiểm tra nếu con người hoặc máy tính chiến thắng
+    :param state: trạng thái hiện tại của bảng
+    :return: True nếu con người hoặc máy tính thắng
+    """
     return wins(state, HUMAN) or wins(state, COMP)
 
 
 def empty_cells(state):
+    """
+    Duyệt qua bảng hiện tại, lấy từng ô trống lưu vào Cells
+    :param state: trạng thái hiện tại của bảng
+    :return: trả về một danh sách các ô trống
+    """
     cells = []
 
     for x, row in enumerate(state):
@@ -61,6 +86,12 @@ def empty_cells(state):
 
 
 def valid_move(x, y):
+    """
+    Di chuyển là hợp lệ nếu chọn những ô trống
+    :param x: tọa độ X
+    :param y: tọa độ Y
+    :return: True nếu board[x][y] là trống
+    """
     if [x, y] in empty_cells(board):
         return True
     else:
@@ -68,6 +99,12 @@ def valid_move(x, y):
 
 
 def set_move(x, y, player):
+    """
+    thiết lập di chuyển, nếu tọa đô hợp lệ
+    :param x: toa độ X
+    :param y: tọa đô Y
+    :param player: người chơi hiện tại
+    """
     if valid_move(x, y):
         board[x][y] = player
         return True
@@ -76,6 +113,13 @@ def set_move(x, y, player):
 
 
 def minimax(state, depth, player):
+    """
+    Hàm này giúp AI chọn được di chuyển tốt nhất
+    :param state: trạng thái hiện tại của bảng
+    :param depth: số node trên cây (0 <= depth <= 16)
+    :param player: lượt của con người hoặc máy tính
+    :return: một danh sách với [dòng tốt nhất, cột tốt nhất, điểm cao nhất]
+    """
     if player == COMP:
         best = [-1, -1, -infinity]
     else:
@@ -102,7 +146,7 @@ def minimax(state, depth, player):
 
 def clean():
     """
-    Clears the console
+    Dọn dẹp console
     """
     os_name = platform.system().lower()
     if 'windows' in os_name:
@@ -113,8 +157,8 @@ def clean():
 
 def render(state, c_choice, h_choice):
     """
-    Print the board on console
-    :param state: current state of the board
+    in ra bảng trên console
+    :param state: trạng thái hiện tại của bảng
     """
 
     chars = {
@@ -161,7 +205,7 @@ def human_turn(c_choice, h_choice):
     if depth == 0 or game_over(board):
         return
 
-    # Dictionary of valid moves
+    # Từ điển các di chuyển hợp lệ
     move = -1
     moves = {
         1: [0, 0], 2: [0, 1], 3: [0, 2], 4: [0, 3],
@@ -223,7 +267,7 @@ def main():
         except (KeyError, ValueError):
             print('Bad choice')
 
-    # Main loop of this game
+    # Main loop của game
     while len(empty_cells(board)) > 0 and not game_over(board):
         if first == 'N':
             ai_turn(c_choice, h_choice)
