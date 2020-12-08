@@ -177,6 +177,13 @@ def render(state, c_choice, h_choice):
 
 
 def ai_turn(c_choice, h_choice):
+    """
+    Nó gọi hàm minimax() nếu depth < 16
+    nếu không thì sẽ chọn vị trí ngẫu nhiên.
+    :param c_choice: máy chọn X hoặc O
+    :param h_choice: con người chọn X hoặc O
+    :return:
+    """
     # depth = len(empty_cells(board))
     depth = 16
     if depth == 0 or game_over(board):
@@ -200,6 +207,12 @@ def ai_turn(c_choice, h_choice):
 
 
 def human_turn(c_choice, h_choice):
+    """
+    Người chơi chọn vị trí duy chuyển hợp lệ
+    :param c_choice: máy chọn X hoặc O
+    :param h_choice: con người chọn X hoặc O
+    :return:
+    """
     # depth = len(empty_cells(board))
     depth = 16
     if depth == 0 or game_over(board):
